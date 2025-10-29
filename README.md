@@ -1,6 +1,6 @@
 # MT_Grpo — 使用说明
 
-### 0）前置条件
+## 0）前置条件
 
 - 已安装 **Conda**、**Git**、**NVIDIA 驱动**（可执行 nvidia-smi）。
 - 上传结果文件前，加入 Overleaf 项目 **“XLF_Logs”**。
@@ -9,7 +9,7 @@
 
 
 
-### 1）项目运行步骤
+## 1）项目运行步骤
 
 登陆服务器，终端运行：
 
@@ -40,7 +40,7 @@ bash setup_and_run.sh
 
 
 
-### 2）结果文件
+## 2）结果文件
 
 输出位置：`/mnt/workspace/xintong/xjf/MT_Grpo/exports/`
 
@@ -50,7 +50,7 @@ bash setup_and_run.sh
 
 
 
-### 3）上传结果到 Overleaf
+## 3）上传结果到 Overleaf
 
 1. 受邀加入并打开 Overleaf 项目 **“XLF_Logs”**
 2. 进入文件夹 MT_Grpo/
