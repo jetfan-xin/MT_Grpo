@@ -49,7 +49,7 @@ exit
 
 ### 排错
 
-` setup_and _run.sh` 脚本出错时，可上传同目录下（MT_Grpo/scripts）的 `setup_and_run.sh` 文件方便排错。
+` setup_and _run.sh` 脚本出错时，可上传同目录下（MT_Grpo/scripts）的 `setup_and_run.log` 文件方便排错。
 
 
 
