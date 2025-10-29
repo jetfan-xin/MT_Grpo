@@ -3,7 +3,7 @@
 ## 0）前置条件
 
 - 已安装 **Conda**、**Git**、**NVIDIA 驱动**（可执行 nvidia-smi）。
-- 上传结果文件前，加入 Overleaf 项目 **“XLF_Logs”**。
+- 上传结果文件前，加入 Overleaf 项目 **“XJF_Logs”**。
 
 
 
