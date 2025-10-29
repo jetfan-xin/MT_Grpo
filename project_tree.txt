@@ -41,7 +41,7 @@
 │   ├── download_comet_ckpts.py
 │   ├── environment.yml
 │   ├── requirements.txt
-│   ├── setup_and_run copy.sh
+│   ├── setup_and_run.log
 │   └── setup_and_run.sh
 ├── verl
 │   ├── comet_reward_batch_with_ray.py

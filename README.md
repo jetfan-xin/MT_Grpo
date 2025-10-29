@@ -22,7 +22,10 @@ cd /mnt/workspace/xintong/xjf
 git clone https://github.com/jetfan-xin/MT_Grpo.git
 cd MT_Grpo/scripts
 
-# 3）运行主脚本
+# 3）启动一个新的 tmux 会话
+tmux new -s xjf_mtgrpo
+
+# 4）运行主脚本
 chmod +x setup_and_run.sh
 bash setup_and_run.sh
 ```
@@ -36,6 +39,17 @@ bash setup_and_run.sh
 - 模型训练+推理 verl/custom_grpo_fast_qe.sh
 - 打包结果至 exports/MT_Grpo_logs_*.tar.gz（大于45MB自动分卷）
 
+
+```shell
+# 5）完成后退出会话：
+exit
+# 6）或者从外部关闭
+# tmux kill-session -t mtgrpo
+```
+
+### 排错
+
+` setup_and _run.sh` 脚本出错时，可上传同目录下（MT_Grpo/scripts）的 `setup_and_run.sh` 文件方便排错。
 
 
 

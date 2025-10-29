@@ -2,14 +2,23 @@
 set -euo pipefail
 
 ### ==== 基本路径 ====
-PROJECT_ROOT="/ltstorage/home/4xin/MT_Grpo"
-# PROJECT_ROOT="/mnt/workspace/xintong/xjf/MT_Grpo" # 取消注释
+# PROJECT_ROOT="/ltstorage/home/4xin/MT_Grpo"
+PROJECT_ROOT="/mnt/workspace/xintong/xjf/MT_Grpo" # 取消注释
 ENV_YML="$PROJECT_ROOT/scripts/environment.yml"
 REQ_TXT="$PROJECT_ROOT/scripts/requirements.txt"
 VERL_DIR="$PROJECT_ROOT/verl"
 RUN_SCRIPT="$VERL_DIR/custom_grpo_fast_qe.sh"
 ENV_NAME="xjf_verl"
 
+# === logging ===
+LOG_DIR="${PROJECT_ROOT}/scripts"
+LOG_FILE="${LOG_DIR}/setup_and_run.log"
+
+# 把当前脚本的 stdout 和 stderr 同时写入日志并在终端回显
+exec > >(tee "$LOG_FILE") 2>&1
+echo "日志输出到: $LOG_FILE"
+
+# === pip 配置 ===
 export PIP_NO_CACHE_DIR=1  # pip 不使用缓存
 
 echo ">>> 项目根目录: $PROJECT_ROOT"

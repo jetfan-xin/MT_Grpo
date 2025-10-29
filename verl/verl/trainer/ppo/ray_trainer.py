@@ -1103,7 +1103,7 @@ class RayPPOTrainer:
                     non_tensor_batch_keys=non_tensor_batch_keys_to_pop,
                 )
 
-                is_last_step = 1 #self.global_steps >= self.total_training_steps
+                is_last_step = self.global_steps >= self.total_training_steps
                 with marked_timer("step", timing_raw):
                     # generate a batch
                     with marked_timer("gen", timing_raw, color="red"):
