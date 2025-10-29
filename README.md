@@ -52,6 +52,6 @@ bash setup_and_run.sh
 
 ## 3）上传结果到 Overleaf
 
-1. 受邀加入并打开 Overleaf 项目 **“XLF_Logs”**
+1. 受邀加入并打开 Overleaf 项目 **“XJF_Logs”**
 2. 进入文件夹 MT_Grpo/
 3. 上传生成的 MT_Grpo_logs_\*.tar.gz 或所有 .part-\* 分卷文件
