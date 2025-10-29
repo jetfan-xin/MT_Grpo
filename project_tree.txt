@@ -1,0 +1,998 @@
+.
+├── checkpoints
+│   └── qwen2.5_3b_grpo_mt
+│       └── xcomet_only
+│           └── trainer_npus_4
+│               ├── global_step_1
+│               └── latest_checkpointed_iteration.txt
+├── data
+│   ├── mt-r1-zero-train.jsonl
+│   ├── process_data.py
+│   ├── test
+│   │   ├── json
+│   │   │   ├── flores_dezh.jsonl
+│   │   │   ├── wmt23_deen.jsonl
+│   │   │   ├── wmt23_zhen.jsonl
+│   │   │   ├── wmt24_enja.jsonl
+│   │   │   └── wmt24_enzh.jsonl
+│   │   └── parquet
+│   │       └── test_base_enzh_zhen.parquet
+│   └── train
+│       ├── json
+│       │   ├── train_enzh_6565.jsonl
+│       │   └── train_zhen_6565.jsonl
+│       └── parquet
+│           └── train_base_enzh_zhen.parquet
+├── exports
+│   ├── MT_Grpo_logs_20251028_221653.tar.gz
+│   ├── MT_Grpo_logs_20251029_013752.tar.gz
+│   └── MT_Grpo_logs_20251029_052328.tar.gz
+├── .gitignore
+├── LICENSE
+├── project_tree.txt
+├── README.md
+├── runs
+│   └── qwen2.5_3b_grpo_mt
+│       └── xcomet_only
+│           ├── custom_grpo_fast_qe.log
+│           └── val
+│               └── 1.jsonl
+├── scripts
+│   ├── download_comet_ckpts.py
+│   ├── environment.yml
+│   ├── requirements.txt
+│   ├── setup_and_run copy.sh
+│   └── setup_and_run.sh
+├── verl
+│   ├── comet_reward_batch_with_ray.py
+│   ├── custom_grpo_fast_qe.sh
+│   ├── docker
+│   │   ├── Apptainerfile.rocm
+│   │   ├── Dockerfile.awsefa
+│   │   ├── Dockerfile.ngc.vllm
+│   │   ├── Dockerfile.ngc.vllm0.8
+│   │   ├── Dockerfile.ngc.vllm0.8.sagemaker
+│   │   ├── Dockerfile.rocm
+│   │   ├── Dockerfile.sglang
+│   │   ├── Dockerfile.vemlp.vllm.te
+│   │   ├── Dockerfile.vllm.sglang.megatron
+│   │   └── Dockerfile.vllm.sglang.megatron.deepseek
+│   ├── docs
+│   │   ├── advance
+│   │   │   ├── checkpoint.rst
+│   │   │   ├── dpo_extension.rst
+│   │   │   ├── fsdp_extension.rst
+│   │   │   ├── megatron_extension.rst
+│   │   │   ├── placement.rst
+│   │   │   ├── ppo_lora.rst
+│   │   │   └── rope.rst
+│   │   ├── algo
+│   │   │   ├── baseline.md
+│   │   │   ├── dapo.md
+│   │   │   ├── entropy.md
+│   │   │   ├── grpo.md
+│   │   │   ├── opo.md
+│   │   │   ├── ppo.md
+│   │   │   ├── spin.md
+│   │   │   └── sppo.md
+│   │   ├── amd_tutorial
+│   │   │   ├── amd_build_dockerfile_page.rst
+│   │   │   └── amd_vllm_page.rst
+│   │   ├── api
+│   │   │   ├── data.rst
+│   │   │   ├── single_controller.rst
+│   │   │   ├── trainer.rst
+│   │   │   └── utils.rst
+│   │   ├── ascend_tutorial
+│   │   │   └── ascend_quick_start.rst
+│   │   ├── conf.py
+│   │   ├── examples
+│   │   │   ├── config.rst
+│   │   │   ├── gsm8k_example.rst
+│   │   │   ├── multi_modal_example.rst
+│   │   │   ├── ppo_code_architecture.rst
+│   │   │   └── sandbox_fusion_example.rst
+│   │   ├── faq
+│   │   │   └── faq.rst
+│   │   ├── hybrid_flow.rst
+│   │   ├── index.rst
+│   │   ├── Makefile
+│   │   ├── perf
+│   │   │   ├── device_tuning.rst
+│   │   │   ├── dpsk.md
+│   │   │   ├── nsight_profiling.md
+│   │   │   └── perf_tuning.rst
+│   │   ├── preparation
+│   │   │   ├── prepare_data.rst
+│   │   │   └── reward_function.rst
+│   │   ├── README.md
+│   │   ├── README_vllm0.7.md
+│   │   ├── README_vllm0.8.md
+│   │   ├── requirements-docs.txt
+│   │   ├── sglang_multiturn
+│   │   │   ├── interaction_system.rst
+│   │   │   ├── multiturn.rst
+│   │   │   ├── sandbox_fusion.rst
+│   │   │   └── search_tool_example.rst
+│   │   ├── single_controller.rst
+│   │   ├── start
+│   │   │   ├── install.rst
+│   │   │   ├── multinode.rst
+│   │   │   ├── quickstart.rst
+│   │   │   └── ray_debug_tutorial.rst
+│   │   ├── _static
+│   │   │   ├── js
+│   │   │   │   └── runllm-widget.js
+│   │   │   └── logo.png
+│   │   └── workers
+│   │       ├── fsdp_workers.rst
+│   │       ├── megatron_workers.rst
+│   │       ├── ray_trainer.rst
+│   │       └── sglang_worker.rst
+│   ├── examples
+│   │   ├── data_preprocess
+│   │   │   ├── aime2024_multiturn_w_tool.py
+│   │   │   ├── dapo_multiturn_w_tool.py
+│   │   │   ├── full_hh_rlhf.py
+│   │   │   ├── geo3k_multiturn_w_tool.py
+│   │   │   ├── geo3k.py
+│   │   │   ├── gsm8k_multiturn_w_interaction.py
+│   │   │   ├── gsm8k_multiturn_w_tool.py
+│   │   │   ├── gsm8k.py
+│   │   │   ├── hellaswag.py
+│   │   │   ├── math_dataset.py
+│   │   │   ├── multiturn.py
+│   │   │   └── preprocess_search_r1_dataset.py
+│   │   ├── generation
+│   │   │   ├── run_deepseek7b_mutli_node.sh
+│   │   │   └── run_deepseek_v2_lite_math.sh
+│   │   ├── grpo_trainer
+│   │   │   ├── README.md
+│   │   │   ├── run_deepseek671b_math_megatron.sh
+│   │   │   ├── run_deepseek7b_llm_math_megatron.sh
+│   │   │   ├── run_deepseek7b_llm_math.sh
+│   │   │   ├── run_deepseek7b_llm_seq_balance.sh
+│   │   │   ├── run_deepseek7b_llm.sh
+│   │   │   ├── run_minicpmo2_6.sh
+│   │   │   ├── run_moonlight16b_math_megatron.sh
+│   │   │   ├── run_qwen2_5_32b_grpo_npu.sh
+│   │   │   ├── run_qwen2_5-3b_gsm8k_grpo_lora.sh
+│   │   │   ├── run_qwen2_5_7b_grpo_npu.sh
+│   │   │   ├── run_qwen2_5-7b_math_megatron_diff_tp.sh
+│   │   │   ├── run_qwen2_5_vl_32b_npu.sh
+│   │   │   ├── run_qwen2_5_vl_3b_npu.sh
+│   │   │   ├── run_qwen2_5_vl-7b-megatron.sh
+│   │   │   ├── run_qwen2_5_vl_7b_npu.sh
+│   │   │   ├── run_qwen2_5_vl-7b_seq_balance.sh
+│   │   │   ├── run_qwen2_5_vl-7b.sh
+│   │   │   ├── run_qwen2-7b_math_megatron.sh
+│   │   │   ├── run_qwen2-7b_math.sh
+│   │   │   ├── run_qwen2-7b_seq_balance_math_megatron.sh
+│   │   │   ├── run_qwen2-7b_seq_balance.sh
+│   │   │   ├── run_qwen2-7b_sgl_megatron.sh
+│   │   │   ├── run_qwen2-7b.sh
+│   │   │   ├── run_qwen3-236b_megatron.sh
+│   │   │   ├── run_qwen3-8b.sh
+│   │   │   └── run_qwen3moe-30b_megatron.sh
+│   │   ├── ppo_trainer
+│   │   │   ├── README.md
+│   │   │   ├── run_deepseek7b_llm_modelscope.sh
+│   │   │   ├── run_deepseek7b_llm_pfppo.sh
+│   │   │   ├── run_deepseek7b_llm_sandbox_fusion.sh
+│   │   │   ├── run_deepseek7b_llm.sh
+│   │   │   ├── run_deepseek7b_llm_sp2.sh
+│   │   │   ├── run_deepseek_full_hh_rlhf.sh
+│   │   │   ├── run_deepseek_math_gsm8k_megatron_nsys.sh
+│   │   │   ├── run_deepseek_math_gsm8k_megatron.sh
+│   │   │   ├── run_gemma.sh
+│   │   │   ├── run_moonlight16b_a3b_gsm8k_megatron.sh
+│   │   │   ├── run_qwen1.5_moe_a2.7b-gsm8k_megatron.sh
+│   │   │   ├── run_qwen2.5-32b.sh
+│   │   │   ├── run_qwen2-7b_math_gsm8k_megatron.sh
+│   │   │   ├── run_qwen2-7b_rm_seq_balance_fused_kernels.sh
+│   │   │   ├── run_qwen2-7b_rm_seq_balance_nsys.sh
+│   │   │   ├── run_qwen2-7b_rm_seq_balance.sh
+│   │   │   ├── run_qwen2-7b_rm.sh
+│   │   │   ├── run_qwen2-7b_seq_balance.sh
+│   │   │   └── run_qwen2-7b_sglang_seq_balance.sh
+│   │   ├── ray
+│   │   │   └── tutorial.ipynb
+│   │   ├── reinforce_plus_plus_trainer
+│   │   │   ├── run_qwen2-7b_math_rf_baseline.sh
+│   │   │   └── run_qwen2-7b_math_rf.sh
+│   │   ├── remax_trainer
+│   │   │   ├── run_qwen2.5-3b_seq_balance.sh
+│   │   │   └── run_qwen2.5-7b_seq_balance.sh
+│   │   ├── rloo_trainer
+│   │   │   └── run_qwen2-7b.sh
+│   │   ├── sft
+│   │   │   ├── gsm8k
+│   │   │   │   ├── run_deepseek_6b7.sh
+│   │   │   │   ├── run_gemma_2b.sh
+│   │   │   │   ├── run_gemma_7b.sh
+│   │   │   │   ├── run_qwen_05_peft.sh
+│   │   │   │   ├── run_qwen_05_sp2_liger.sh
+│   │   │   │   └── run_qwen_05_sp2.sh
+│   │   │   └── multiturn
+│   │   │       └── run_qwen_05_sp2.sh
+│   │   ├── sglang_multiturn
+│   │   │   ├── config
+│   │   │   │   ├── geo3k_multiturn_grpo.yaml
+│   │   │   │   ├── geo3k_multiturn_megatron_grpo.yaml
+│   │   │   │   ├── gsm8k_multiturn_grpo_w_interaction.yaml
+│   │   │   │   ├── gsm8k_multiturn_grpo.yaml
+│   │   │   │   ├── gsm8k_multiturn_megatron_grpo.yaml
+│   │   │   │   ├── interaction_config
+│   │   │   │   │   └── gsm8k_interaction_config.yaml
+│   │   │   │   ├── retool_multiturn_grpo.yaml
+│   │   │   │   ├── search_multiturn_grpo.yaml
+│   │   │   │   └── tool_config
+│   │   │   │       ├── geo3k_tool_config.yaml
+│   │   │   │       ├── gsm8k_tool_config.yaml
+│   │   │   │       ├── mcp_server.json
+│   │   │   │       ├── mcp_tool_config.yaml
+│   │   │   │       ├── sandbox_fusion_tool_config.yaml
+│   │   │   │       └── search_tool_config.yaml
+│   │   │   ├── geo3k
+│   │   │   │   ├── run_qwen2.5-3b_geo3k_multiturn_4xgpu.sh
+│   │   │   │   ├── run_qwen2.5-3b_geo3k_multiturn.sh
+│   │   │   │   └── run_qwen2.5-3b_megatron_geo3k_multiturn.sh
+│   │   │   ├── README.md
+│   │   │   ├── run_qwen2.5-0.5b_gsm8k_multiturn_w_interaction.sh
+│   │   │   ├── run_qwen2.5-3b_gsm8k_multiturn_4xgpu.sh
+│   │   │   ├── run_qwen2.5-3b_gsm8k_multiturn.sh
+│   │   │   ├── run_qwen2.5-3b_megatron_gsm8k_multiturn.sh
+│   │   │   ├── run_qwen3-4b_gsm8k_multiturn.sh
+│   │   │   └── search_r1_like
+│   │   │       ├── local_dense_retriever
+│   │   │       │   ├── download.py
+│   │   │       │   └── retrieval_server.py
+│   │   │       └── run_qwen2.5-3b_instruct_search_multiturn.sh
+│   │   ├── slurm
+│   │   │   └── ray_on_slurm.slurm
+│   │   ├── split_placement
+│   │   │   ├── config
+│   │   │   │   └── ppo_trainer_split.yaml
+│   │   │   ├── main_ppo_split.py
+│   │   │   ├── README.md
+│   │   │   ├── run_deepseek7b_llm.sh
+│   │   │   └── split_monkey_patch.py
+│   │   └── tuning
+│   │       ├── 0.5b
+│   │       │   └── qwen2-0.5b_grpo-lora_1_h100_fsdp_vllm.sh
+│   │       ├── 14b
+│   │       │   ├── qwen2_14b_grpo_4_h800_fsdp_vllm.sh
+│   │       │   └── qwen2-14b_grpo-lora_2_h100_fsdp_vllm.sh
+│   │       ├── 1.5b
+│   │       │   └── qwen2-1.5b_grpo-lora_1_h100_fsdp_vllm.sh
+│   │       ├── 32b
+│   │       │   ├── qwen2_32B_grpo_8_h20_megatron_vllm.sh
+│   │       │   └── qwen2-32b_grpo-lora_4_h100_fsdp_vllm.sh
+│   │       ├── 3b
+│   │       │   └── qwen2-3b_grpo-lora_1_h100_fsdp_vllm.sh
+│   │       ├── 70b
+│   │       │   ├── qwen2-70b_grpo_32_h20_fsdp_vllm.sh
+│   │       │   ├── qwen2-70b_grpo_32_h800_fsdp_vllm.sh
+│   │       │   └── qwen2-72b_grpo-lora_8_h100_fsdp_vllm.sh
+│   │       └── 7b
+│   │           ├── qwen2-7b_grpo_2_h800_fsdp_vllm.sh
+│   │           └── qwen2-7b_grpo-lora_1_h100_fsdp_vllm.sh
+│   ├── outputs
+│   │   ├── 2025-10-28
+│   │   │   ├── 21-02-56
+│   │   │   │   ├── .hydra
+│   │   │   │   │   ├── config.yaml
+│   │   │   │   │   ├── hydra.yaml
+│   │   │   │   │   └── overrides.yaml
+│   │   │   │   └── main_ppo.log
+│   │   │   └── 22-30-13
+│   │   │       ├── .hydra
+│   │   │       │   ├── config.yaml
+│   │   │       │   ├── hydra.yaml
+│   │   │       │   └── overrides.yaml
+│   │   │       └── main_ppo.log
+│   │   └── 2025-10-29
+│   │       ├── 00-11-40
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       ├── 00-16-16
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       ├── 00-35-00
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       ├── 00-45-28
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       ├── 00-59-07
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       ├── 01-27-05
+│   │       │   ├── .hydra
+│   │       │   │   ├── config.yaml
+│   │       │   │   ├── hydra.yaml
+│   │       │   │   └── overrides.yaml
+│   │       │   └── main_ppo.log
+│   │       └── 05-12-32
+│   │           ├── .hydra
+│   │           │   ├── config.yaml
+│   │           │   ├── hydra.yaml
+│   │           │   └── overrides.yaml
+│   │           └── main_ppo.log
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── recipe
+│   │   ├── char_count
+│   │   │   ├── create_dataset.py
+│   │   │   ├── README.md
+│   │   │   ├── reward_function.py
+│   │   │   ├── train_grpo.sh
+│   │   │   └── train_sft.sh
+│   │   ├── dapo
+│   │   │   ├── config
+│   │   │   │   └── dapo_trainer.yaml
+│   │   │   ├── dapo_ray_trainer.py
+│   │   │   ├── main_dapo.py
+│   │   │   ├── prepare_dapo_data.sh
+│   │   │   ├── README.md
+│   │   │   ├── run_dapo_early_qwen2.5_32b.sh
+│   │   │   ├── run_dapo_qwen2.5_32b.sh
+│   │   │   ├── run_dapo_wo_ds_qwen2.5_32b.sh
+│   │   │   ├── runtime_env.yaml
+│   │   │   ├── test_dapo_7b_math_lora.sh
+│   │   │   ├── test_dapo_7b_math_megatron.sh
+│   │   │   ├── test_dapo_7b_math.sh
+│   │   │   ├── test_dapo_7b.sh
+│   │   │   ├── test_dapo_dspk_671b_megatron.sh
+│   │   │   └── test_dapo_qwen3_30b_math.sh
+│   │   ├── entropy
+│   │   │   ├── 32b_clip_cov.sh
+│   │   │   ├── 32b_kl_cov_mininbsz.sh
+│   │   │   ├── 32b_kl_cov.sh
+│   │   │   ├── 7b_clip_cov.sh
+│   │   │   ├── 7b_kl_cov.sh
+│   │   │   ├── config
+│   │   │   │   └── entropy_trainer.yaml
+│   │   │   ├── entropy_ray_trainer.py
+│   │   │   ├── main_entropy.py
+│   │   │   ├── README.md
+│   │   │   ├── reward.py
+│   │   │   └── reward_score
+│   │   │       ├── entropy_math
+│   │   │       │   ├── grader.py
+│   │   │       │   ├── __init__.py
+│   │   │       │   └── math_normalize.py
+│   │   │       └── __init__.py
+│   │   ├── prime
+│   │   │   ├── config
+│   │   │   │   └── prime_trainer.yaml
+│   │   │   ├── __init__.py
+│   │   │   ├── main_prime.py
+│   │   │   ├── prime_core_algos.py
+│   │   │   ├── prime_dp_rm.py
+│   │   │   ├── prime_fsdp_workers.py
+│   │   │   ├── prime_ray_trainer.py
+│   │   │   ├── run_prime_qwen_code.sh
+│   │   │   └── run_prime_qwen.sh
+│   │   ├── r1
+│   │   │   ├── config
+│   │   │   │   └── evaluation.yaml
+│   │   │   ├── data_process.py
+│   │   │   ├── __init__.py
+│   │   │   ├── main_eval.py
+│   │   │   ├── README.md
+│   │   │   ├── reward_score.py
+│   │   │   ├── run_r1_distill_qwen.sh
+│   │   │   └── tasks
+│   │   │       ├── gpqa.py
+│   │   │       ├── __init__.py
+│   │   │       ├── livecodebench.py
+│   │   │       └── math.py
+│   │   ├── README.md
+│   │   ├── retool
+│   │   │   ├── retool_multi_turn_sft_preprocess.py
+│   │   │   ├── run_qwen2.5_32b_sp8.sh
+│   │   │   ├── run_qwen2.5_7b_sp4.sh
+│   │   │   ├── run_qwen3_4b_sp4.sh
+│   │   │   └── run_sft.sh
+│   │   ├── spin
+│   │   │   ├── config
+│   │   │   │   └── spin_trainer.yaml
+│   │   │   ├── core_algos.py
+│   │   │   ├── dp_actor.py
+│   │   │   ├── fsdp_workers.py
+│   │   │   ├── main_spin.py
+│   │   │   ├── README.md
+│   │   │   ├── run_spin.sh
+│   │   │   └── spin_trainer.py
+│   │   └── sppo
+│   │       ├── config
+│   │       │   └── sppo_trainer.yaml
+│   │       ├── dp_actor.py
+│   │       ├── __init__.py
+│   │       ├── main_sppo.py
+│   │       ├── README.md
+│   │       ├── run_qwen2.5-7b_rm.sh
+│   │       ├── sppo_ray_trainer.py
+│   │       └── sppo_worker.py
+│   ├── requirements-npu.txt
+│   ├── requirements_sglang.txt
+│   ├── requirements.txt
+│   ├── scripts
+│   │   ├── converter_hf_to_mcore.py
+│   │   ├── diagnose.py
+│   │   ├── __init__.py
+│   │   ├── init_random_model.py
+│   │   └── install_vllm_sglang_mcore.sh
+│   ├── setup.py
+│   ├── test.py
+│   ├── tests
+│   │   ├── __init__.py
+│   │   ├── interactions
+│   │   │   ├── __init__.py
+│   │   │   └── test_gsm8k_interaction.py
+│   │   ├── kill_github_tests.sh
+│   │   ├── models
+│   │   │   ├── test_transformer.py
+│   │   │   └── test_transformers_ulysses.py
+│   │   ├── README.md
+│   │   ├── single_controller
+│   │   │   ├── base
+│   │   │   │   └── test_decorator.py
+│   │   │   ├── check_worker_alive
+│   │   │   │   └── main.py
+│   │   │   ├── detached_worker
+│   │   │   │   ├── client.py
+│   │   │   │   ├── README.md
+│   │   │   │   ├── run.sh
+│   │   │   │   └── server.py
+│   │   │   ├── __init__.py
+│   │   │   ├── test_auto_padding_on_cpu.py
+│   │   │   ├── test_colocated_workers_fused.py
+│   │   │   ├── test_colocated_workers.py
+│   │   │   ├── test_data_transfer.py
+│   │   │   ├── test_decorator_on_cpu.py
+│   │   │   ├── test_driverfunc_to_worker.py
+│   │   │   ├── test_fused_workers_on_cpu.py
+│   │   │   ├── test_high_level_scheduling_api.py
+│   │   │   ├── test_ray_collectives.py
+│   │   │   ├── test_ray_local_envs_on_cpu.py
+│   │   │   ├── test_ray_utils_on_cpu.py
+│   │   │   ├── test_rvdz.py
+│   │   │   ├── test_worker_group_basics.py
+│   │   │   └── test_worker_group_torch.py
+│   │   ├── special_distributed
+│   │   │   ├── README.md
+│   │   │   ├── run_all.sh
+│   │   │   ├── test_fsdp_ckpt.py
+│   │   │   └── test_tensor_dict.py
+│   │   ├── special_e2e
+│   │   │   ├── check_custom_rwd_fn.py
+│   │   │   ├── check_results.py
+│   │   │   ├── envs
+│   │   │   │   ├── digit_completion
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── task.py
+│   │   │   │   │   └── tokenizer.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── generation
+│   │   │   │   └── run_gen_qwen05.sh
+│   │   │   ├── __init__.py
+│   │   │   ├── ppo_trainer
+│   │   │   │   ├── expert_parallel
+│   │   │   │   │   └── qwen2moe_minimal.json
+│   │   │   │   ├── run_function_reward.sh
+│   │   │   │   └── run_model_reward.sh
+│   │   │   ├── README.md
+│   │   │   ├── run_dapo.sh
+│   │   │   ├── run_geo3k_fsdp_sgl_multiturn_w_tool.sh
+│   │   │   ├── run_grpo_lora_with_merge.sh
+│   │   │   ├── run_gsm8k_fsdp_sgl_multiturn_sf_tool.sh
+│   │   │   ├── run_gsm8k_fsdp_sgl_multiturn_w_tool.sh
+│   │   │   ├── run_ppo_trainer_megatron.sh
+│   │   │   ├── run_prime.sh
+│   │   │   ├── run_r1_distill_qwen_aime24_eval.sh
+│   │   │   ├── run_spin.sh
+│   │   │   ├── run_sppo.sh
+│   │   │   ├── run_test.sh
+│   │   │   └── sft
+│   │   │       ├── run_sft.sh
+│   │   │       └── test_sp_loss_match.py
+│   │   ├── special_npu
+│   │   │   ├── run_qwen2_5_05b_dapo.sh
+│   │   │   ├── run_qwen2_5_05b_grpo.sh
+│   │   │   └── run_qwen2_5_vl_3b_npu.sh
+│   │   ├── special_sanity
+│   │   │   ├── check_api_docs.py
+│   │   │   ├── check_device_api_usage.py
+│   │   │   ├── check_license.py
+│   │   │   ├── check_pr_title.py
+│   │   │   ├── test_config_docs.py
+│   │   │   ├── test_import.py
+│   │   │   ├── type_coverage_check.py
+│   │   │   ├── validate_imported_docs.py
+│   │   │   └── validate_structure.py
+│   │   ├── special_standalone
+│   │   │   ├── README.md
+│   │   │   └── test_memory_buffers.py
+│   │   ├── test_protocol_on_cpu.py
+│   │   ├── tools
+│   │   │   └── test_base_tool_on_cpu.py
+│   │   ├── trainer
+│   │   │   ├── __init__.py
+│   │   │   └── ppo
+│   │   │       ├── __init__.py
+│   │   │       ├── test_core_algos_on_cpu.py
+│   │   │       └── test_metric_utils_on_cpu.py
+│   │   ├── utils
+│   │   │   ├── dataset
+│   │   │   │   ├── test_multiturn_sft_dataset_on_cpu.py
+│   │   │   │   ├── test_rl_dataset_on_cpu.py
+│   │   │   │   └── test_sft_dataset_on_cpu.py
+│   │   │   ├── megatron
+│   │   │   │   └── test_pipeline_parallel.py
+│   │   │   ├── reward_score
+│   │   │   │   ├── reward_score
+│   │   │   │   │   └── test_sandbox_fusion_on_cpu.py
+│   │   │   │   └── test_sandbox_on_cpu.py
+│   │   │   ├── test_activation_offload.py
+│   │   │   ├── test_config_on_cpu.py
+│   │   │   ├── test_flops_counter.py
+│   │   │   ├── test_fs_on_cpu.py
+│   │   │   ├── test_import_utils_on_cpu.py
+│   │   │   ├── test_linear_cross_entropy.py
+│   │   │   ├── test_linear_cross_entropy_tp.py
+│   │   │   ├── test_model_on_cpu.py
+│   │   │   ├── _test_module.py
+│   │   │   ├── test_nvtx_profile.py
+│   │   │   ├── test_seqlen_balancing.py
+│   │   │   ├── test_timeout_decorator_cpu.py
+│   │   │   └── test_torch_functional.py
+│   │   └── workers
+│   │       ├── reward_manager
+│   │       │   └── test_registry_on_cpu.py
+│   │       └── rollout
+│   │           ├── async_rollout_utils.py
+│   │           ├── perf
+│   │           │   └── vllm_async_rollout.py
+│   │           ├── resource
+│   │           │   └── tool_configs
+│   │           │       ├── mcp_server.json
+│   │           │       ├── mcp_tool_config
+│   │           │       ├── sandbox_fusion_tool_config
+│   │           │       └── search_tool_config
+│   │           ├── rollout_vllm
+│   │           │   ├── run_fsdp_vllm.py
+│   │           │   ├── test_vllm_chat_scheduler.py
+│   │           │   ├── test_vllm_hf_loader.py
+│   │           │   └── test_vllm_spmd.py
+│   │           ├── test_async_sglang_server.py
+│   │           ├── test_custom_completion_callback.py
+│   │           ├── test_hf_rollout.py
+│   │           ├── test_sglang_async_rollout_mcp_tools.py
+│   │           ├── test_sglang_async_rollout_search_tools.py
+│   │           ├── test_sglang_async_rollout_sf_tools.py
+│   │           ├── test_sglang_async_rollout_w_interaction.py
+│   │           ├── test_sglang_async_rollout_w_tools.py
+│   │           ├── test_sglang_spmd.py
+│   │           └── utils_sglang.py
+│   ├── verl
+│   │   ├── __init__.py
+│   │   ├── interactions
+│   │   │   ├── base.py
+│   │   │   ├── gsm8k_interaction.py
+│   │   │   └── __init__.py
+│   │   ├── model_merger
+│   │   │   ├── base_model_merger.py
+│   │   │   ├── fsdp_model_merger.py
+│   │   │   ├── __init__.py
+│   │   │   ├── __main__.py
+│   │   │   └── megatron_model_merger.py
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   ├── llama
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── megatron
+│   │   │   │       ├── checkpoint_utils
+│   │   │   │       │   ├── __init__.py
+│   │   │   │       │   ├── llama_loader_depracated.py
+│   │   │   │       │   ├── llama_loader.py
+│   │   │   │       │   └── llama_saver.py
+│   │   │   │       ├── __init__.py
+│   │   │   │       ├── layers
+│   │   │   │       │   ├── __init__.py
+│   │   │   │       │   ├── parallel_attention.py
+│   │   │   │       │   ├── parallel_decoder.py
+│   │   │   │       │   ├── parallel_linear.py
+│   │   │   │       │   ├── parallel_mlp.py
+│   │   │   │       │   └── parallel_rmsnorm.py
+│   │   │   │       └── modeling_llama_megatron.py
+│   │   │   ├── mcore
+│   │   │   │   ├── config_converter.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── loader.py
+│   │   │   │   ├── model_forward.py
+│   │   │   │   ├── model_initializer.py
+│   │   │   │   ├── patch_v012.py
+│   │   │   │   ├── qwen2_5_vl
+│   │   │   │   │   ├── attention.py
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── model.py
+│   │   │   │   │   ├── rope_utils.py
+│   │   │   │   │   ├── vision_config.py
+│   │   │   │   │   ├── vision_model.py
+│   │   │   │   │   └── vision_transformer_block.py
+│   │   │   │   ├── readme.md
+│   │   │   │   ├── registry.py
+│   │   │   │   ├── saver.py
+│   │   │   │   ├── util.py
+│   │   │   │   └── weight_converter.py
+│   │   │   ├── qwen2
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── megatron
+│   │   │   │       ├── checkpoint_utils
+│   │   │   │       │   ├── __init__.py
+│   │   │   │       │   ├── qwen2_loader_depracated.py
+│   │   │   │       │   ├── qwen2_loader.py
+│   │   │   │       │   └── qwen2_saver.py
+│   │   │   │       ├── __init__.py
+│   │   │   │       ├── layers
+│   │   │   │       │   ├── __init__.py
+│   │   │   │       │   ├── parallel_attention.py
+│   │   │   │       │   ├── parallel_decoder.py
+│   │   │   │       │   ├── parallel_linear.py
+│   │   │   │       │   ├── parallel_mlp.py
+│   │   │   │       │   └── parallel_rmsnorm.py
+│   │   │   │       └── modeling_qwen2_megatron.py
+│   │   │   ├── README.md
+│   │   │   ├── registry.py
+│   │   │   ├── transformers
+│   │   │   │   ├── dense_common.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── kimi_vl.py
+│   │   │   │   ├── llama.py
+│   │   │   │   ├── monkey_patch.py
+│   │   │   │   ├── npu_patch.py
+│   │   │   │   ├── qwen2_5_vl.py
+│   │   │   │   ├── qwen2.py
+│   │   │   │   └── qwen2_vl.py
+│   │   │   └── weight_loader_registry.py
+│   │   ├── protocol.py
+│   │   ├── single_controller
+│   │   │   ├── base
+│   │   │   │   ├── decorator.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── megatron
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── worker_group.py
+│   │   │   │   │   └── worker.py
+│   │   │   │   ├── register_center
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   └── ray.py
+│   │   │   │   ├── worker_group.py
+│   │   │   │   └── worker.py
+│   │   │   ├── __init__.py
+│   │   │   └── ray
+│   │   │       ├── base.py
+│   │   │       ├── __init__.py
+│   │   │       └── megatron.py
+│   │   ├── third_party
+│   │   │   ├── __init__.py
+│   │   │   ├── sglang
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── parallel_state.py
+│   │   │   └── vllm
+│   │   │       ├── __init__.py
+│   │   │       ├── vllm_v_0_5_4
+│   │   │       │   ├── arg_utils.py
+│   │   │       │   ├── config.py
+│   │   │       │   ├── dtensor_weight_loaders.py
+│   │   │       │   ├── hf_weight_loader.py
+│   │   │       │   ├── __init__.py
+│   │   │       │   ├── llm_engine_sp.py
+│   │   │       │   ├── llm.py
+│   │   │       │   ├── megatron_weight_loaders.py
+│   │   │       │   ├── model_loader.py
+│   │   │       │   ├── model_runner.py
+│   │   │       │   ├── parallel_state.py
+│   │   │       │   ├── spmd_gpu_executor.py
+│   │   │       │   ├── tokenizer.py
+│   │   │       │   └── worker.py
+│   │   │       └── vllm_v_0_6_3
+│   │   │           ├── arg_utils.py
+│   │   │           ├── config.py
+│   │   │           ├── dtensor_weight_loaders.py
+│   │   │           ├── hf_weight_loader.py
+│   │   │           ├── __init__.py
+│   │   │           ├── llm_engine_sp.py
+│   │   │           ├── llm.py
+│   │   │           ├── megatron_weight_loaders.py
+│   │   │           ├── model_loader.py
+│   │   │           ├── model_runner.py
+│   │   │           ├── parallel_state.py
+│   │   │           ├── spmd_gpu_executor.py
+│   │   │           ├── tokenizer.py
+│   │   │           └── worker.py
+│   │   ├── tools
+│   │   │   ├── base_tool.py
+│   │   │   ├── geo3k_tool.py
+│   │   │   ├── gsm8k_tool.py
+│   │   │   ├── __init__.py
+│   │   │   ├── mcp_base_tool.py
+│   │   │   ├── mcp_search_tool.py
+│   │   │   ├── sandbox_fusion_tools.py
+│   │   │   ├── schemas.py
+│   │   │   ├── search_tool.py
+│   │   │   └── utils
+│   │   │       ├── __init__.py
+│   │   │       ├── mcp_clients
+│   │   │       │   ├── McpClientManager.py
+│   │   │       │   └── utils.py
+│   │   │       ├── search_r1_like_utils.py
+│   │   │       └── tool_registry.py
+│   │   ├── trainer
+│   │   │   ├── config
+│   │   │   │   ├── evaluation.yaml
+│   │   │   │   ├── generation.yaml
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── ppo_megatron_trainer.yaml
+│   │   │   │   ├── ppo_trainer.yaml
+│   │   │   │   └── sft_trainer.yaml
+│   │   │   ├── constants_ppo.py
+│   │   │   ├── fsdp_sft_trainer.py
+│   │   │   ├── __init__.py
+│   │   │   ├── main_eval.py
+│   │   │   ├── main_generation.py
+│   │   │   ├── main_ppo.py
+│   │   │   ├── ppo
+│   │   │   │   ├── core_algos.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── metric_utils.py
+│   │   │   │   ├── ray_trainer.py
+│   │   │   │   └── reward.py
+│   │   │   └── runtime_env.yaml
+│   │   ├── utils
+│   │   │   ├── activation_offload.py
+│   │   │   ├── checkpoint
+│   │   │   │   ├── checkpoint_manager.py
+│   │   │   │   ├── fsdp_checkpoint_manager.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── megatron_checkpoint_manager.py
+│   │   │   ├── config.py
+│   │   │   ├── dataset
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── multiturn_sft_dataset.py
+│   │   │   │   ├── README.md
+│   │   │   │   ├── rl_dataset.py
+│   │   │   │   ├── rm_dataset.py
+│   │   │   │   ├── sft_dataset.py
+│   │   │   │   └── vision_utils.py
+│   │   │   ├── debug
+│   │   │   │   ├── empty_annotations.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── nvtx_profile.py
+│   │   │   │   ├── performance.py
+│   │   │   │   ├── profile.py
+│   │   │   │   └── trajectory_tracker.py
+│   │   │   ├── device.py
+│   │   │   ├── distributed.py
+│   │   │   ├── experimental
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── torch_functional.py
+│   │   │   ├── flops_counter.py
+│   │   │   ├── fsdp_utils.py
+│   │   │   ├── fs.py
+│   │   │   ├── hdfs_io.py
+│   │   │   ├── import_utils.py
+│   │   │   ├── __init__.py
+│   │   │   ├── kernel
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── kernels.py
+│   │   │   │   └── linear_cross_entropy.py
+│   │   │   ├── logger
+│   │   │   │   ├── aggregate_logger.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── logging_utils.py
+│   │   │   ├── megatron
+│   │   │   │   ├── dist_checkpointing.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── memory.py
+│   │   │   │   ├── optimizer.py
+│   │   │   │   ├── pipeline_parallel.py
+│   │   │   │   ├── sequence_parallel.py
+│   │   │   │   └── tensor_parallel.py
+│   │   │   ├── megatron_utils.py
+│   │   │   ├── memory_buffer.py
+│   │   │   ├── metric
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── utils.py
+│   │   │   ├── model.py
+│   │   │   ├── net_utils.py
+│   │   │   ├── py_functional.py
+│   │   │   ├── ray_utils.py
+│   │   │   ├── rendezvous
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── ray_backend.py
+│   │   │   ├── reward_score
+│   │   │   │   ├── geo3k.py
+│   │   │   │   ├── gsm8k.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── math_batch.py
+│   │   │   │   ├── math_dapo.py
+│   │   │   │   ├── math.py
+│   │   │   │   ├── math_verify.py
+│   │   │   │   ├── prime_code
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── testing_util.py
+│   │   │   │   │   └── utils.py
+│   │   │   │   ├── prime_math
+│   │   │   │   │   ├── grader.py
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   └── math_normalize.py
+│   │   │   │   ├── sandbox_fusion
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   └── utils.py
+│   │   │   │   └── search_r1_like_qa_em.py
+│   │   │   ├── seqlen_balancing.py
+│   │   │   ├── tokenizer.py
+│   │   │   ├── torch_dtypes.py
+│   │   │   ├── torch_functional.py
+│   │   │   ├── tracking.py
+│   │   │   ├── ulysses.py
+│   │   │   └── vllm_utils.py
+│   │   ├── version
+│   │   │   └── version
+│   │   └── workers
+│   │       ├── actor
+│   │       │   ├── base.py
+│   │       │   ├── dp_actor.py
+│   │       │   ├── __init__.py
+│   │       │   └── megatron_actor.py
+│   │       ├── critic
+│   │       │   ├── base.py
+│   │       │   ├── dp_critic.py
+│   │       │   ├── __init__.py
+│   │       │   └── megatron_critic.py
+│   │       ├── fsdp_workers.py
+│   │       ├── __init__.py
+│   │       ├── megatron_workers.py
+│   │       ├── reward_manager
+│   │       │   ├── batch.py
+│   │       │   ├── dapo_original.py
+│   │       │   ├── dapo.py
+│   │       │   ├── gtpo_old.py
+│   │       │   ├── gtpo.py
+│   │       │   ├── __init__.py
+│   │       │   ├── naive.py
+│   │       │   ├── prime.py
+│   │       │   └── registry.py
+│   │       ├── reward_model
+│   │       │   ├── base.py
+│   │       │   ├── __init__.py
+│   │       │   ├── megatron
+│   │       │   │   ├── __init__.py
+│   │       │   │   └── reward_model.py
+│   │       │   └── metric_worker.py
+│   │       ├── rollout
+│   │       │   ├── async_server.py
+│   │       │   ├── base.py
+│   │       │   ├── chat_scheduler.py
+│   │       │   ├── hf_rollout.py
+│   │       │   ├── __init__.py
+│   │       │   ├── naive
+│   │       │   │   ├── __init__.py
+│   │       │   │   └── naive_rollout.py
+│   │       │   ├── schemas.py
+│   │       │   ├── sglang_rollout
+│   │       │   │   ├── async_sglang_server.py
+│   │       │   │   ├── __init__.py
+│   │       │   │   ├── sglang_rollout.py
+│   │       │   │   └── utils.py
+│   │       │   ├── tokenizer.py
+│   │       │   └── vllm_rollout
+│   │       │       ├── fire_vllm_rollout.py
+│   │       │       ├── __init__.py
+│   │       │       ├── vllm_async_server.py
+│   │       │       ├── vllm_rollout.py
+│   │       │       └── vllm_rollout_spmd.py
+│   │       └── sharding_manager
+│   │           ├── base.py
+│   │           ├── fsdp_sglang.py
+│   │           ├── fsdp_ulysses.py
+│   │           ├── fsdp_vllm.py
+│   │           ├── __init__.py
+│   │           ├── megatron_sglang.py
+│   │           └── megatron_vllm.py
+│   └── verl.egg-info
+│       ├── dependency_links.txt
+│       ├── PKG-INFO
+│       ├── requires.txt
+│       ├── SOURCES.txt
+│       └── top_level.txt
+└── wandb
+    ├── debug-internal.log -> run-20251029_051354-1sjiua78/logs/debug-internal.log
+    ├── debug.log -> run-20251029_051354-1sjiua78/logs/debug.log
+    ├── latest-run -> run-20251029_051354-1sjiua78
+    ├── run-20251028_210359-5ial3xyp
+    │   ├── files
+    │   │   ├── config.yaml
+    │   │   ├── output.log
+    │   │   ├── requirements.txt
+    │   │   ├── wandb-metadata.json
+    │   │   └── wandb-summary.json
+    │   ├── logs
+    │   │   ├── debug-core.log -> /var/tmp/4xin/jb_remote_cache/wandb/logs/core-debug-20251028_210359.log
+    │   │   ├── debug-internal.log
+    │   │   └── debug.log
+    │   ├── run-5ial3xyp.wandb
+    │   └── tmp
+    │       └── code
+    ├── run-20251029_004647-yr7zjxsa
+    │   ├── files
+    │   │   ├── output.log
+    │   │   ├── requirements.txt
+    │   │   └── wandb-metadata.json
+    │   ├── logs
+    │   │   ├── debug-core.log -> /var/tmp/4xin/jb_remote_cache/wandb/logs/core-debug-20251029_004647.log
+    │   │   ├── debug-internal.log
+    │   │   └── debug.log
+    │   ├── run-yr7zjxsa.wandb
+    │   └── tmp
+    │       └── code
+    ├── run-20251029_010009-td34eru9
+    │   ├── files
+    │   │   ├── output.log
+    │   │   ├── requirements.txt
+    │   │   └── wandb-metadata.json
+    │   ├── logs
+    │   │   ├── debug-core.log -> /var/tmp/4xin/jb_remote_cache/wandb/logs/core-debug-20251029_010009.log
+    │   │   ├── debug-internal.log
+    │   │   └── debug.log
+    │   ├── run-td34eru9.wandb
+    │   └── tmp
+    │       └── code
+    ├── run-20251029_012808-a11jh1rq
+    │   ├── files
+    │   │   ├── config.yaml
+    │   │   ├── output.log
+    │   │   ├── requirements.txt
+    │   │   ├── wandb-metadata.json
+    │   │   └── wandb-summary.json
+    │   ├── logs
+    │   │   ├── debug-core.log -> /var/tmp/4xin/jb_remote_cache/wandb/logs/core-debug-20251029_012808.log
+    │   │   ├── debug-internal.log
+    │   │   └── debug.log
+    │   ├── run-a11jh1rq.wandb
+    │   └── tmp
+    │       └── code
+    └── run-20251029_051354-1sjiua78
+        ├── files
+        │   ├── config.yaml
+        │   ├── output.log
+        │   ├── requirements.txt
+        │   ├── wandb-metadata.json
+        │   └── wandb-summary.json
+        ├── logs
+        │   ├── debug-core.log -> /var/tmp/4xin/jb_remote_cache/wandb/logs/core-debug-20251029_051355.log
+        │   ├── debug-internal.log
+        │   └── debug.log
+        ├── run-1sjiua78.wandb
+        └── tmp
+            └── code
+
+224 directories, 772 files

@@ -12,7 +12,7 @@
 /runs/
 /verl/outputs/
 /checkpoints/
-
+/verl/verl.egg-info/
 
 echo "ckpts/" >> .gitignore
 echo "*.ckpt" >> .gitignore

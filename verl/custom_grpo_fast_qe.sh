@@ -66,13 +66,13 @@ DATA_DIR="${MY_DIR}/MT_Grpo/data"
 train_file_path="${DATA_DIR}/train/parquet/train_base_enzh_zhen.parquet"
 test_file_path="${DATA_DIR}/test/parquet/test_base_enzh_zhen.parquet"
 
-# python3 "${DATA_DIR}/process_data.py" \
-#     --train_files "${DATA_DIR}/train/json/train_zhen_6565.jsonl" "${DATA_DIR}/train/json/train_enzh_6565.jsonl" \
-#     --test_files "${DATA_DIR}/test/json/wmt23_zhen.jsonl" "${DATA_DIR}/test/json/wmt24_enzh.jsonl" \
-#     --tokenizer_path Qwen/Qwen2.5-3B \
-#     --template_type "base" \
-#     --train_output_file ${train_file_path} \
-#     --test_output_file ${test_file_path}
+python3 "${DATA_DIR}/process_data.py" \
+    --train_files "${DATA_DIR}/train/json/train_zhen_6565.jsonl" "${DATA_DIR}/train/json/train_enzh_6565.jsonl" \
+    --test_files "${DATA_DIR}/test/json/wmt23_zhen.jsonl" "${DATA_DIR}/test/json/wmt24_enzh.jsonl" \
+    --tokenizer_path Qwen/Qwen2.5-3B \
+    --template_type "base" \
+    --train_output_file ${train_file_path} \
+    --test_output_file ${test_file_path}
 
 ########## 3) 训练超参 ##########
 # runs目录保存log和验证输出
