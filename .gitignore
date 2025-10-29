@@ -1,0 +1,30 @@
+# .gitignore 
+*.ckpt
+*.pt
+*.bin
+*.safetensors
+*.npz
+*.pkl
+
+# cache
+/.cache/
+/wandb/
+/runs/
+/verl/outputs/
+/checkpoints/
+
+
+echo "ckpts/" >> .gitignore
+echo "*.ckpt" >> .gitignore
+echo "*.bin" >> .gitignore
+echo "*.safetensors" >> .gitignore
+echo "verl/*.whl" >> .gitignore
+
+# checkpoints & large artifacts
+ckpts/
+verl/*.whl
+
+
+# python cache
+__pycache__/
+*.pyc
