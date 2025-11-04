@@ -25,6 +25,9 @@ cd MT_Grpo/scripts
 # 3）启动一个新的 tmux 会话
 tmux new -s xjf_mtgrpo
 
+# 4）在 tmux 内执行 Hugging Face 授权（临时，私下给token）
+export HF_TOKEN=hf_xxxx
+
 # 4）运行主脚本
 chmod +x setup_and_run.sh
 bash setup_and_run.sh
